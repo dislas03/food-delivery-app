@@ -5,3 +5,5 @@ const validateUserInput = (req, res, next) => {
     }
     next();
 };
+
+module.exports = { validateUserInput }

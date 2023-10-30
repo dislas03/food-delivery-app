@@ -1,5 +1,5 @@
 const error = require('mongoose/lib/error');
-const { Customer } =  require('../models/user');
+const { User } =  require('../models/user');
 
 const createUser = async (req, res) => {
     try { 
@@ -24,7 +24,7 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
     try { 
-        const user = await User.finById(req.params.id);
+        const user = await User.findById(req.params.id);
         if (!user) {
             res.status(404).json({ error: 'User can not be found' });
         } else {
