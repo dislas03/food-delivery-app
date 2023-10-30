@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router
-const {home, asian, indian, italian, mediterranean} = require("./controllers/restaurantController")
+const {home, asian, indian, italian, mediterranean} = require("../controllers/restaurantController")
 
 router.get("/", home)
 router.get("/asian", asian)
