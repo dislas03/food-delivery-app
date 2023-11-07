@@ -1,5 +1,16 @@
+const mongoose = require('mongoose')
 const error = require('mongoose/lib/error');
 const { User } =  require('../models/user');
+const { DB_URL } = require('../db/connection');
+
+mongoose.connect(DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}) .then(() => {
+    console.log('Connected');
+}) .catch((err) => {
+    console.log(err)
+});
 
 const createUser = async (req, res) => {
     try { 

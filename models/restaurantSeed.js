@@ -114,6 +114,6 @@ async function run() {
         console.log(`${arrayOfRest}`)
     }
 }
-run().catch(console.dir)
+// run().catch(console.dir)
 
 module.exports = { twoSticks, papaThai, shanghaiWok, ariSushi, punjabiDhaba, tandooriBites, kaurCafe, osteriaMozza, chiSpacca, anticoNuovo, cafeSantorini, piccoloParadiso, joesFalafel }

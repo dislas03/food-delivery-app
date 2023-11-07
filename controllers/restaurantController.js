@@ -1,34 +1,67 @@
-function asian(req, res){
-    const asianRestaurants = ["Two Sticks", "Papa Thai", "Shanghai Wok", "Ari Sushi"]
-    const twoSticks = ["Spicy Ramen", "Pork Katsu", "Hosomaki"]
-    const papaThai = ["Pad Thai","Tom Yum Goong", "Khao Soi"]
-    const shanghaiWok = ["Xiao Long Bao", "Peking Duck", "Shanghai Fried Noodles"]
-    const ariSushi = ["Tako", "Temaki", "Ari's Dragon Roll"]
-    res.send("asian", {asianRestaurants, twoSticks, papaThai, shanghaiWok, ariSushi})
+const mongoose = require('mongoose');
+const error = require('mongoose/lib/error');
+const { Restaurant } = require('../models/restaurants');
+const { DB_URL } = require('../db/connection');
+
+mongoose.connect(DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}) .then(() => {
+    console.log('Connected');
+}) .catch((err) => {
+    console.log(err)
+});
+
+const createRestaurant = async (req, res) => {
+    try{
+        const newRestaurant = new Restaurant(restaurantData)
+        const savedRestaurant = await newRestaurant.save();
+        return savedRestaurant; 
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const getAllRestaurants = async (req, res) => {
+    try{
+        const restaurants = await Restaurant.find();
+        return restaurants;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const getRestaurantById = async (req, res) => {
+    try{
+        const restaurant = await Restaurant.findById(restaurantID);
+        return restaurant;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const updateRestaurantById = async (req, res) => {
+    try{
+        const updatedRestaurant = await Restaurant.findByIdAndUpdate( restaurantId, updatedData, { new: true } );
+        return updatedRestaurant
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-function indian(req, res){
-    const indianRestaurants = ["Punjabi Dhaba", "Tandoori Bites", "Kaur Cafe"]
-    const punjabiDhaba = ["Rajma Curry", "Punjabi Chloe Masala", "Dal Makhani"]
-    const tandooriBites = ["Chicken Barrah", "Tandoori Roti", "Paneer Tandoori"]
-    const kaurCafe = ["Dal Makhani", "Mutton Curry", "Palak Paneer"]
-    res.send("indian", {indianRestaurants, punjabiDhaba, tandooriBites, kaurCafe})
-}
+const deleteRestaurantById = async (req, res) => {
+    try{ 
+        const deletedRestaurant = await Restaurant.findByIdAndRemove(restaurantId);
+        return deletedRestaurant;
+    } catch(error) {
+        console.error(error)
+    }
+};
 
-function italian(req, res){
-    const italianRestaurants = ["Osteria Mozza", "Chi Spacca", "Antico Nuovo"]
-    const osteriaMozza = ["Burratina Pugliese", "Burricotta & Artichoke", "Smoked Mozzarella di Bufala"]
-    const chiSpacca = ["Spacca Affettati Misti", "Salanova Lettuces", "Whole Branzino alla piastra"]
-    const anticoNuovo = ["Amberjack Crudo", "Pollo e Crostone", "Agnello Dorato"]
-    res.send("italian", {italianRestaurants, osteriaMozza, chiSpacca, anticoNuovo})
-}
-
-function mediterranean(req, res){
-    const mediterraneanRestaurants = ["Cafe Santorini", "Piccolo Paradiso", "Joe's Falafel"]
-    const cafeSantorini = ["Babaghanoush", "Borek & Spanakopita", "Fried Kubbe"]
-    const piccoloParadiso = ["Bresaola", "Polenta Soffice", "Carpaccio di Salmone"]
-    const joesFalafel = ["Chicken Shawarma", "Beef Kabob", "Beef Kafta"]
-    res.send("mediterranean", {mediterraneanRestaurants, cafeSantorini, piccoloParadiso, joesFalafel})
-}
-
-module.exports = {asian, indian, italian, mediterranean};
+module.exports = {
+    createRestaurant,
+    getAllRestaurants,
+    getRestaurantById,
+    updateRestaurantById,
+    deleteRestaurantById
+};
